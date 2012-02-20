@@ -5,12 +5,9 @@ enyo.kind({
       onSelect: ""
   },
   components: [
-      {
-          kind : "PageHeader",
-          components : [
-              { name : "headerText", kind : enyo.VFlexBox, content : "Search", flex : 1 }
-          ]
-      }
+      { kind : "PageHeader", components : [
+          { name : "headerText", kind : enyo.VFlexBox, content : "Search", flex : 1 }
+      ] }
   ],
   create: function() {
       this.inherited(arguments);

@@ -62,6 +62,5 @@
     "prefs_Save" : "Запиши",
     "prefs_Cancel" : "Откажи",
     "headerCategories" : "Категории",
-    "headerOffers" : "Оферти",
-    "Password for #{username} on blog #{blogName}" : "Password for #{username} on blog #{blogName}",
+    "headerOffers" : "Оферти"
 }
