@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head>
+    <title>BombaJob</title>
+    <script src="/opt/PalmSDK/Current/share/framework/enyo/1.0/framework/enyo.js" type="text/javascript"></script>
+  </head>
+  <body class="bgpattern">
+    <script src="source/database/DatabaseModel.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        enyo.job('bjSplash', function() {
+            //document.body.className = "bgpattern";
+            //document.getElementsByClassName("splash")[0].className = "";
+            //new bj.Loading().renderInto(document.body);
+            new bj.BombaJob().renderInto(document.body);
+        }, 2000);
+    </script>
+    <div class="splash" />
+  </body>
+</html>

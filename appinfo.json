@@ -1,0 +1,10 @@
+{
+	"id": "net.supudo.apps.webos.bombajob",
+	"version": "1.0.0",
+	"vendor": "supudo.net",
+	"type": "web",
+	"main": "index.html",
+	"title": "BombaJob",
+	"icon": "icon.png",
+    "uiRevision": "2"
+}
