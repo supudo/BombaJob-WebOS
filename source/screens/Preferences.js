@@ -32,7 +32,7 @@ enyo.kind({
                       { name: "sSavePrivateData", kind: "ToggleButton", onChange: "savePrivateDataClicked" }
                   ]},
                   { kind: "RowGroup", align: "center", components: [
-                      { name: "pdEmail", kind: "Input", hint: "PD Email", autoCapitalize: "lowercase", autoWordComplete: "false", inputType: "email" }
+                      { name: "pdEmail", kind: "Input", hint: "PD Email", autoCapitalize: "lowercase", autoWordComplete: "false", inputType: "email", onchange: "emailChange" }
                   ]},
               ]},
               { kind: "RowGroup", name : "grpCategories", caption: "Categories", components: [
@@ -52,12 +52,7 @@ enyo.kind({
                       { name: "lblInAppEmail", content: "InApp Email", flex: 1 },
                       { name: "sInAppEmail", kind: "ToggleButton", onChange: "inAppEmailClicked" }
                   ]},
-              ]},
-              { kind: "HFlexBox", pack: "end", style: "padding: 0 10px;", components: [
-                  { name: "saveButton", kind: "Button", content: "Save", onclick: "saveClick" },
-                  { width: "10px" },
-                  { name: "cancelButton", kind: "Button", content: "Cancel", onclick: "cancelClick" }
-              ] }
+              ]}
           ] },
       ] },
   ],
@@ -87,102 +82,59 @@ enyo.kind({
       this.$.sInAppEmail.setOnLabel($L('YES'));
       this.$.sInAppEmail.setOffLabel($L('NO'));
 
-      this.$.saveButton.setCaption($L('prefs_Save'));
-      this.$.cancelButton.setCaption($L('prefs_Cancel'));
-
       this.$.getPreferencesCall.call(
       {
           "keys": ["showCategories", "onlineSearch", "inAppEmail", "privateData", "pdEmail"]
       });
-      this.pShowCategories = false;
-      this.pOnlineSearch = false;
-      this.pInAppEmail = false;
-      this.pPrivateData = false;
-      this.pPDEmail = "";
   },
   showCategoriesClicked: function(inSender) {
-      this.pShowCategories = inSender.getState();
+      this.$.setPreferencesCall.call({"showCategories": inSender.getState()});
+      enyo.application.appSettings['ShowCategories'] = inSender.getState();
   },
   onlineSearchClicked: function(inSender) {
-      this.pOnlineSearch = inSender.getState();
+      this.$.setPreferencesCall.call({"onlineSearch": inSender.getState()});
+      enyo.application.appSettings['OnlineSearch'] = inSender.getState();
   },
   inAppEmailClicked: function(inSender) {
-      this.pInAppEmail = inSender.getState();
+      this.$.setPreferencesCall.call({"inAppEmail": inSender.getState()});
+      enyo.application.appSettings['InAppEmail'] = inSender.getState();
+  },
+  savePrivateDataClicked: function(inSender) {
+      this.$.setPreferencesCall.call({"privateData": inSender.getState()});
+      enyo.application.appSettings['PrivateData'] = inSender.getState();
+      if (inSender.getState()) {
+          this.$.setPreferencesCall.call({"pdEmail": this.$.pdEmail.getValue()});
+          enyo.application.appSettings['PDEmail'] = this.$.pdEmail.getValue();
+      }
+      else {
+          this.$.setPreferencesCall.call({"pdEmail": ""});
+          enyo.application.appSettings['PDEmail'] = "";
+      }
+  },
+  emailChange: function() {
+      if (this.$.sSavePrivateData.getState()) {
+          this.$.setPreferencesCall.call({"pdEmail": this.$.pdEmail.getValue()});
+          enyo.application.appSettings['PDEmail'] = this.$.pdEmail.getValue();
+      }
   },
   getPreferencesSuccess: function(inSender, inResponse) {
-      this.pShowCategories = inResponse.showCategories;
-      this.$.sShowCategories.setState(this.pShowCategories);
+      this.$.sShowCategories.setState(inResponse.showCategories);
+      this.$.sOnlineSearch.setState(inResponse.onlineSearch);
+      this.$.sInAppEmail.setState(inResponse.inAppEmail);
+      this.$.sSavePrivateData.setState(inResponse.privateData);
 
-      this.pOnlineSearch = inResponse.onlineSearch;
-      this.$.sOnlineSearch.setState(this.pOnlineSearch);
-
-      this.pInAppEmail = inResponse.inAppEmail;
-      this.$.sInAppEmail.setState(this.pInAppEmail);
-
-      this.pPrivateData = inResponse.privateData;
-      this.$.sSavePrivateData.setState(this.pPrivateData);
-      
-      this.pPDEmail = inResponse.pdEmail;
-      if (this.pPDEmail == undefined)
+      if (inResponse.pdEmail == undefined)
           this.$.pdEmail.setHint("...");
       else
-          this.$.pdEmail.setValue(this.pPDEmail);
+          this.$.pdEmail.setValue(inResponse.pdEmail);
   },
   getPreferencesFailure: function(inSender, inResponse) {
-      enyo.log("Settings read error! " + inResponse);
+      this.log("Settings read error! " + inResponse);
   },
   setPreferencesSuccess: function(inSender, inResponse) {
-      console.log("Settings saved!");
+      this.log("Settings saved!");
   },
   setPreferencesFailure: function(inSender, inResponse) {
-      console.log("Settings save error! " + inResponse);
-  },
-  saveClick: function(inSender, inEvent) {
-      var tShowCategories = this.$.sShowCategories.getState();
-      var tOnlineSearch = this.$.sOnlineSearch.getState();
-      var tInAppEmail = this.$.sInAppEmail.getState();
-      var tPrivateData = this.$.sSavePrivateData.getState();
-      var tPDEmail = this.$.pdEmail.getValue();
-      this.$.setPreferencesCall.call(
-      {
-          "showCategories": tShowCategories,
-          "onlineSearch": tOnlineSearch,
-          "inAppEmail": tInAppEmail,
-          "privateData": tPrivateData,
-          "pdEmail": tPDEmail
-      });
-      this.pShowCategories = tShowCategories;
-      this.pOnlineSearch = tOnlineSearch;
-      this.pInAppEmail = tInAppEmail;
-      this.pPrivateData = tPrivateData;
-      this.pPDEmail = tPDEmail;
-      if (!this.pPrivateData) {
-          this.pPDEmail = "";
-          this.$.pdEmail.setHint("...");
-      }
-      enyo.application.appSettings['ShowCategories'] = this.pShowCategories;
-      enyo.application.appSettings['OnlineSearch'] = this.pOnlineSearch;
-      enyo.application.appSettings['InAppEmail'] = this.pInAppEmail;
-      enyo.application.appSettings['PrivateData'] = this.pPrivateData;
-      enyo.application.appSettings['PDEmail'] = this.pPDEmail;
-  },
-  cancelClick: function() {
-      this.pShowCategories = enyo.application.appSettings['ShowCategories'];
-      this.$.sShowCategories.setState(this.pShowCategories);
-
-      this.pOnlineSearch = enyo.application.appSettings['OnlineSearch'];
-      this.$.sOnlineSearch.setState(this.pShowCategories);
-
-      this.pInAppEmail = enyo.application.appSettings['InAppEmail'];
-      this.$.sInAppEmail.setState(this.pInAppEmail);
-
-      this.pPrivateData = enyo.application.appSettings['PrivateData'];
-      this.$.sPrivateData.setState(this.pPrivateData);
-
-      this.pPDEmail = enyo.application.appSettings['PDEmail'];
-      if (!this.pPrivateData) {
-          this.pPDEmail = "";
-          this.$.pdEmail.setHint("...");
-      }
+      this.log("Settings save error! " + inResponse);
   }
 });
