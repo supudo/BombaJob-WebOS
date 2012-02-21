@@ -14,7 +14,8 @@ enyo.kind({
             { name : "offerDetails", className : "bgpattern", kind : "bj.OfferDetails", onBack : "goBack", onSendMessage: "sendOfferMessage" },
             { name : "offerMessage", className : "bgpattern", kind : "bj.OfferMessage", onBack : "goBack" },
             { name : "post", className : "bgpattern", kind : "bj.Post" },
-            { name : "search", className : "bgpattern", kind : "bj.Search" },
+            { name : "search", className : "bgpattern", kind : "bj.Search", onFound: "viewSearchResults" },
+            { name : "searchResults", className : "bgpattern", kind : "bj.SearchResults", onSelect : "viewOffer", onBack : "goBack" },
             { name : "preferences", className : "bgpattern", kind : "bj.Preferences", onCancel : "goBack" },
             { name : "about", className : "bgpattern", kind : "bj.About" }
         ]
@@ -79,6 +80,10 @@ enyo.kind({
     sendOfferMessage: function(inSender, inOffer) {
         this.$.pane.selectViewByName("offerMessage");
         this.$.offerMessage.setOffer(inOffer);
+    },
+    viewSearchResults: function(inSender, inFreelance, inSearchQuery) {
+        this.$.pane.selectViewByName("searchResults");
+        this.$.searchResults.performSearch(inFreelance, inSearchQuery);
     },
     // ------------------------------------------------
     goBackLoading : function(inSender, inEvent) {

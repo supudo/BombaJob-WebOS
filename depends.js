@@ -3,6 +3,7 @@ enyo.depends(
   'source/database/persistence/persistence.js',
   'source/database/persistence/persistence.store.sql.js',
   'source/database/persistence/persistence.store.websql.js',
+  'source/database/persistence/persistence.search.js',
   "source/utils/funcs.js",
   "stylesheets/bombajob.css",
   "source/utils/AppSettings.js",
@@ -16,6 +17,7 @@ enyo.depends(
   "source/screens/OfferMessage.js",
   "source/screens/Post.js",
   "source/screens/Search.js",
+  "source/screens/SearchResults.js",
   "source/screens/Preferences.js",
   "source/screens/About.js"
 );

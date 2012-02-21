@@ -5,25 +5,9 @@ enyo.kind({
         onBack : ""
     },
     components : [
-        {
-            name: 'lblLoading',
-            content: 'Loading...',
-            className: 'loadingLabel'
-        },
-        {
-            name: 'loadingProgress',
-            kind: "ProgressBar",
-            minimum: 0,
-            maximum: 60,
-            position: 0,
-            className: "loadingProgressBar"
-        },
-        {
-            name: "syncService",
-            kind: "WebService",
-            onSuccess: "syncFinished",
-            onFailure: "syncFailed"
-        },
+        { name: 'lblLoading', content: 'Loading...', className: 'loadingLabel' },
+        { name: 'loadingProgress', kind: "ProgressBar", minimum: 0, maximum: 60, position: 0, className: "loadingProgressBar" },
+        { name: "syncService", kind: "WebService", onSuccess: "syncFinished", onFailure: "syncFailed" },
         {
             name : "getConnMgrStatus",
             kind : "PalmService",
@@ -161,10 +145,7 @@ enyo.kind({
                             t.readyn = false;
                             t.sentmessageyn = false;
                             enyo.application.persistence.add(t);
-                            enyo.application.persistence.flush(function() {
-                                enyo.application.persistence.flush(function(){ });
-                                //that.syncDone();
-                            });
+                            //enyo.application.persistence.flush(null);
                         }
                         else {
                             existing.oid = ent.id;
@@ -179,14 +160,12 @@ enyo.kind({
                             existing.publishdate = Date.parse(ent.date);
                             existing.publishdatestring = ent.date;
                             existing.publishdatestamp = ent.datestamp;
-                            enyo.application.persistence.flush(function() {
-                                enyo.application.persistence.flush(function(){ });
-                                //that.syncDone();
-                            });
+                            //enyo.application.persistence.flush(null);
                         }
                     });
                 }, this);
             }
+            enyo.application.persistence.flush(function(){ });
             this.log("Sync done ... newest job offers!");
             this.syncDone();
         }
