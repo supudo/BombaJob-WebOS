@@ -61,7 +61,7 @@ enyo.kind({
             enyo.application.persistence.transaction(function(tx) {
                 enyo.application.persistence.flush(tx, function() {
                     that.log('Database wiped!');
-                    //that.serviceURL = "http://www.bombajob.bg/_mob_service_json.php?action=";
+                    //that.serviceURL = enyo.application.appSettings['ServiceURL'];
                     //that.$.getConnMgrStatus.call();
                 });
             });
@@ -163,7 +163,7 @@ enyo.kind({
                             enyo.application.persistence.add(t);
                             enyo.application.persistence.flush(function() {
                                 enyo.application.persistence.flush(function(){ });
-                                that.syncDone();
+                                //that.syncDone();
                             });
                         }
                         else {
@@ -181,13 +181,14 @@ enyo.kind({
                             existing.publishdatestamp = ent.datestamp;
                             enyo.application.persistence.flush(function() {
                                 enyo.application.persistence.flush(function(){ });
-                                that.syncDone();
+                                //that.syncDone();
                             });
                         }
                     });
                 }, this);
             }
             this.log("Sync done ... newest job offers!");
+            this.syncDone();
         }
         else
             this.syncFailed();
@@ -212,7 +213,7 @@ enyo.kind({
     },
     syncNewestOffers: function() {
         this.serviceStatus = 3;
-        this.$.syncService.setUrl(this.serviceURL + "getNewJobs&wd=1");
+        this.$.syncService.setUrl(this.serviceURL + "get500Jobs&wd=1");
         this.$.syncService.call();
     }
 });

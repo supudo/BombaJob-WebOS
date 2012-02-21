@@ -13,6 +13,7 @@ enyo.depends(
   "source/screens/People.js",
   "source/screens/Categories.js",
   "source/screens/OfferDetails.js",
+  "source/screens/OfferMessage.js",
   "source/screens/Post.js",
   "source/screens/Search.js",
   "source/screens/Preferences.js",

@@ -17,3 +17,5 @@
  }
 .post-cat-dd { width: 90%; /* background-color: #DF9368; color: #000000; */ }
 .btn-post-error { color: #df9368; }
+
+.btn-send-message { background-color: #df9368; color: #000000; }

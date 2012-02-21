@@ -5,7 +5,8 @@ enyo.kind({
         offer : null
     },
     events : {
-        onBack : ""
+        onBack : "",
+        onSendMessage: ""
     },
     components : [
         { kind : "PageHeader", components : [
@@ -13,13 +14,15 @@ enyo.kind({
              { name : "backButton", kind : "Button", content : "Back", onclick : "backClick" }
         ] },
         { kind : "Scroller", flex : 1, layoutKind: "VFlexLayout", components : [
-            { name : "offerContent", kind : "HtmlContent", allowHtml : "true", style: "padding: 2px;" }
+            { name : "offerContent", kind : "HtmlContent", allowHtml : "true", style: "padding: 2px;" },
+            { name: "sendMessageButton", kind: "Button", caption: "Send message", onclick: "sendMessageClick", className: "btn-send-message" }
         ] }
     ],
     create: function() {
         this.inherited(arguments);
         enyo.g11n.setLocale({uiLocale: "bg"});
         this.$.backButton.setContent($L('Back'));
+        this.$.sendMessageButton.setCaption($L('send_message'));
     },
     backClick : function() {
         this.doBack();
@@ -35,5 +38,8 @@ enyo.kind({
         off += "<b>" + ((this.offer.humanyn) ? $L('odetails_Human_Negativ') : $L('odetails_Company_Negativ')) + "</b><br>";
         off += this.offer.negativism + "<br>";
         this.$.offerContent.setContent(off);
+    },
+    sendMessageClick: function() {
+        this.doSendMessage(this.offer);
     }
 });

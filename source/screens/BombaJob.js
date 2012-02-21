@@ -11,7 +11,8 @@ enyo.kind({
             { name : "categories", className : "bgpattern", kind : "bj.Categories", onCategorySelect : "viewCategory", onOfferSelect : "viewOffer" },
             { name : "jobs", className : "bgpattern", kind : "bj.Jobs", onSelect : "viewOffer", onBack : "goBack" },
             { name : "people", className : "bgpattern", kind : "bj.People", onSelect : "viewOffer", onBack : "goBack" },
-            { name : "offerDetails", className : "bgpattern", kind : "bj.OfferDetails", onBack : "goBack" },
+            { name : "offerDetails", className : "bgpattern", kind : "bj.OfferDetails", onBack : "goBack", onSendMessage: "sendOfferMessage" },
+            { name : "offerMessage", className : "bgpattern", kind : "bj.OfferMessage", onBack : "goBack" },
             { name : "post", className : "bgpattern", kind : "bj.Post" },
             { name : "search", className : "bgpattern", kind : "bj.Search" },
             { name : "preferences", className : "bgpattern", kind : "bj.Preferences", onCancel : "goBack" },
@@ -74,6 +75,10 @@ enyo.kind({
             this.$.pane.selectViewByName("people");
             this.$.people.showItems(inCategory.cid);
         }
+    },
+    sendOfferMessage: function(inSender, inOffer) {
+        this.$.pane.selectViewByName("offerMessage");
+        this.$.offerMessage.setOffer(inOffer);
     },
     // ------------------------------------------------
     goBackLoading : function(inSender, inEvent) {
