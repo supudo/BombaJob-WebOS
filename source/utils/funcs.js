@@ -16,3 +16,8 @@ function getDateForDetails(date) {
     dt += d.getYear() + " ";
     return dt;
 }
+
+function addSlashes(str) {
+    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+    //return (str + '').replace(/[']/g, '\'');
+}

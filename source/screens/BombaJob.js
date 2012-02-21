@@ -112,6 +112,7 @@ enyo.kind({
     },
     showPost : function() {
         this.$.pane.selectViewByName("post");
+        this.$.post.refreshLabels();
     },
     showSearch : function() {
         this.$.pane.selectViewByName("search");

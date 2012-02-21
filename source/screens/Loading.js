@@ -51,7 +51,7 @@ enyo.kind({
         
         this.$.getPreferencesCall.call(
         {
-            "keys": ["showCategories"]
+            "keys": ["showCategories", "onlineSearch", "inAppEmail", "privateData", "pdEmail"]
         });
 
         var dbWipe = false;
@@ -67,12 +67,16 @@ enyo.kind({
             });
         }
         else {
-            this.serviceURL = "http://www.bombajob.bg/_mob_service_json.php?action=";
+            this.serviceURL = enyo.application.appSettings['ServiceURL'];
             this.$.getConnMgrStatus.call();
         }
     },
     getPreferencesSuccess: function(inSender, inResponse) {
         enyo.application.appSettings['ShowCategories'] = inResponse.showCategories;
+        enyo.application.appSettings['OnlineSearch'] = inResponse.onlineSearch;
+        enyo.application.appSettings['InAppEmail'] = inResponse.inAppEmail;
+        enyo.application.appSettings['PrivateData'] = inResponse.privateData;
+        enyo.application.appSettings['PDEmail'] = inResponse.pdEmail;
     },
     getPreferencesFailure: function(inSender, inResponse) {
         enyo.application.appSettings['ShowCategories'] = false;

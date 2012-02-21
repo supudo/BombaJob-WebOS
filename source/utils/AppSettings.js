@@ -10,3 +10,6 @@ enyo.application.appSettings['PDEmail'] = "";
 // Facebook
 enyo.application.appSettings['FBAppID'] = "";
 enyo.application.appSettings['FBAppSecret'] = "";
+
+// Misc
+enyo.application.appSettings['ServiceURL'] = "http://www.bombajob.bg/_mob_service_json.php?action=";

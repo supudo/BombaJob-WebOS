@@ -3,7 +3,7 @@ enyo.depends(
   'source/database/persistence/persistence.js',
   'source/database/persistence/persistence.store.sql.js',
   'source/database/persistence/persistence.store.websql.js',
-  "source/utils/datetime.js",
+  "source/utils/funcs.js",
   "stylesheets/bombajob.css",
   "source/utils/AppSettings.js",
   "source/screens/BombaJob.js",

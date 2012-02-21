@@ -13,7 +13,7 @@ enyo.kind({
              { name : "backButton", kind : "Button", content : "Back", onclick : "backClick" }
         ] },
         { kind : "Scroller", flex : 1, layoutKind: "VFlexLayout", components : [
-            { name : "cofferContent", kind : "HtmlContent", allowHtml : "true" }
+            { name : "offerContent", kind : "HtmlContent", allowHtml : "true", style: "padding: 2px;" }
         ] }
     ],
     create: function() {
@@ -34,6 +34,6 @@ enyo.kind({
         off += this.offer.positivism + "<br><br>";
         off += "<b>" + ((this.offer.humanyn) ? $L('odetails_Human_Negativ') : $L('odetails_Company_Negativ')) + "</b><br>";
         off += this.offer.negativism + "<br>";
-        this.$.cofferContent.setContent(off);
+        this.$.offerContent.setContent(off);
     }
 });

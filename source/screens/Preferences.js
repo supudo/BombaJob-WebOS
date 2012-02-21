@@ -31,7 +31,7 @@ enyo.kind({
                       { name: "lblSavePrivateData", content: "Save data", flex: 1 },
                       { name: "sSavePrivateData", kind: "ToggleButton", onChange: "savePrivateDataClicked" }
                   ]},
-                  { kind: "HFlexBox", align: "center", components: [
+                  { kind: "RowGroup", align: "center", components: [
                       { name: "pdEmail", kind: "Input", hint: "PD Email", autoCapitalize: "lowercase", autoWordComplete: "false", inputType: "email" }
                   ]},
               ]},
@@ -126,7 +126,7 @@ enyo.kind({
       if (this.pPDEmail == undefined)
           this.$.pdEmail.setHint("...");
       else
-          this.$.pdEmail.setHint(this.pPDEmail);
+          this.$.pdEmail.setValue(this.pPDEmail);
   },
   getPreferencesFailure: function(inSender, inResponse) {
       enyo.log("Settings read error! " + inResponse);

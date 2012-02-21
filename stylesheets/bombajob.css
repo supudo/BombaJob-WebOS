@@ -10,3 +10,10 @@
 .loadingProgressBar { position: fixed; left: 50%; top: 50%; margin-left: -150px; width: 300px; }
 
 .opIcon { padding-right: 6px; }
+
+.btn-post-cont { padding: 4px; width: 100%; text-align: center; margin-top: 10px; }
+.btn-post { background: url('../images/btn-boom.png') 0 0 no-repeat;
+    width: 280px; height: 64px; text-align: center; color: #ffffff; padding-top: 16px;
+ }
+.post-cat-dd { width: 90%; /* background-color: #DF9368; color: #000000; */ }
+.btn-post-error { color: #df9368; }
