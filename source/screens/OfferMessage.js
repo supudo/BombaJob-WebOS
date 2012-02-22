@@ -28,9 +28,9 @@ enyo.kind({
       enyo.g11n.setLocale({uiLocale: "bg"});
       this.$.backButton.setCaption($L('Back'));
       this.$.sendButton.setCaption($L('send_button'));
+      enyo.keyboard.show();
   },
   sendClick: function(inSender, inEvent) {
-      enyo.scrim.show();
       var j = {msg : addSlashes(this.$.pMessage.getValue())};
       if (this.$.pMessage.getValue() != "") {
           this.$.msgService.setUrl(enyo.application.appSettings['ServiceURL'] + "postMessage&oid=" + this.offer.oid);

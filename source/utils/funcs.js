@@ -25,9 +25,9 @@ function addSlashes(str) {
 function logThis() {
     if (enyo.application.appSettings['InDebug']) {
         var args = arguments;
-        var output = "[___BombaJob-DEBUG] " + arguments[0] + " // ";
-        for (var i=1; i<arguments.length; i++) {
-            output += arguments[i];
+        var output = "[___BombaJob-DEBUG]";
+        for (var i=0; i<arguments.length; i++) {
+            output += " // " + arguments[i];
         }
         enyo.log(output);
     }

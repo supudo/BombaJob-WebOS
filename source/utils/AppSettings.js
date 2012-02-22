@@ -10,6 +10,7 @@ enyo.application.appSettings['PDEmail'] = "";
 // Facebook
 enyo.application.appSettings['FBAppID'] = "";
 enyo.application.appSettings['FBAppSecret'] = "";
+enyo.application.appSettings['TwitterKey'] = "";
 
 // Misc
 enyo.application.appSettings['InDebug'] = true;

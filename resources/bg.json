@@ -70,6 +70,7 @@
     "message_sent" : "Съобщението е изпратено.",
     "button_search" : "Търси",
     "search_for" : "Търсене за:",
+    "share_title" : "-- Сподели --",
     "post_HumanCompany_Choice" : "Аз съм",
     "post_HumanCompany_H" : "Човек",
     "post_HumanCompany_C" : "Фирма",
@@ -97,5 +98,11 @@
     "post_error_Company_Title" : "Заглавието на позицията е задължително поле.",
     "post_error_Company_Email" : "Моля попълнете email-а за връзка.",
     "post_error_Company_Positiv" : "Описаниеto на позицията е задължително поле.",
-    "post_error_Company_Negativ" : "Предимствата на фирмата е задължително поле."
+    "post_error_Company_Negativ" : "Предимствата на фирмата е задължително поле.",
+    "message_title" : "Изпрати",
+    "message_fromEmail" : "От...",
+    "message_toEmail" : "До...",
+    "message_btn_send" : "Изпрати",
+    "message_btn_cancel" : "Откажи",
+    "message_sent" : "Съобщението е изпратено."
 }

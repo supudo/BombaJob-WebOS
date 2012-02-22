@@ -51,6 +51,13 @@ enyo.kind({
       this.inherited(arguments);
       enyo.g11n.setLocale({uiLocale: "bg"});
       this.$.headerText.setContent($L('Menu_Post'));
+      this.categories = [];
+      var that = this;
+      Category.all().order("title", true).list(null, function (results) {
+          results.forEach(function (cat) {
+              that.categories.push({caption: cat.title, value: cat.cid});
+          });
+      });
       this.refreshLabels();
   },
   refreshLabels: function() {
@@ -64,13 +71,6 @@ enyo.kind({
       this.$.pFreelanceYn.setOffLabel($L('NO'));
 
       this.$.pCategory.setCaption($L('post_Category_Human'));
-      this.categories = [];
-      var that = this;
-      Category.all().order("title", true).list(null, function (results) {
-          results.forEach(function (cat) {
-              that.categories.push({caption: cat.title, value: cat.cid});
-          });
-      });
       this.$.pCategory.setItems(this.categories);
       this.$.pCategory.render();
       

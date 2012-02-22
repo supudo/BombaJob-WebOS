@@ -50,7 +50,7 @@ enyo.kind({
     },
     viewChanged: function(inSender, inView, inPreviousView) {
         if (inView != null && inPreviousView != null) {
-            logThis(this, "view changed from - " + inPreviousView.name + ", to - " + inView.name);
+            //logThis(this, "view changed from - " + inPreviousView.name + ", to - " + inView.name);
         }
     },
     // App Menu ------------------------------------------------
@@ -68,6 +68,7 @@ enyo.kind({
     viewOffer : function(inSender, inOffer) {
         this.$.pane.selectViewByName("offerDetails");
         this.$.offerDetails.setOffer(inOffer);
+        this.$.offerDetails.resetShare();
     },
     viewCategory : function(inSender, inCategory, inHumanYn) {
         if (!inHumanYn) {

@@ -48,8 +48,8 @@ enyo.kind({
             enyo.application.persistence.transaction(function(tx) {
                 enyo.application.persistence.flush(tx, function() {
                     logThis(that, 'Database wiped!');
-                    //that.serviceURL = enyo.application.appSettings['ServiceURL'];
-                    //that.$.getConnMgrStatus.call();
+                    that.serviceURL = enyo.application.appSettings['ServiceURL'];
+                    that.$.getConnMgrStatus.call();
                 });
             });
         }
@@ -135,7 +135,6 @@ enyo.kind({
                 enyo.forEach(inResponse.getNewJobs, function(ent) {
                     JobOffer.all().filter('oid', '=', ent.id).one(function(existing) {
                         if (!existing) {
-                            logThis(that, "new...");
                             var t = new JobOffer();
                             t.oid = ent.id;
                             t.cid = ent.cid;
@@ -153,11 +152,10 @@ enyo.kind({
                             t.sentmessageyn = false;
                             enyo.application.persistence.add(t);
                             that.offersSynced++;
-                            logThis(that, "total = " + that.offersTotal + "; synced = " + that.offersSynced);
+                            //logThis(that, "total = " + that.offersTotal + "; synced new = " + that.offersSynced);
                             that.offerSynced();
                         }
                         else {
-                            logThis(that, "existing...");
                             existing.oid = ent.id;
                             existing.cid = ent.cid;
                             existing.title = ent.title;
@@ -171,7 +169,7 @@ enyo.kind({
                             existing.publishdatestring = ent.date;
                             existing.publishdatestamp = ent.datestamp;
                             that.offersSynced++;
-                            logThis(that, "total = " + that.offersTotal + "; synced = " + that.offersSynced);
+                            //logThis(that, "total = " + that.offersTotal + "; synced existing = " + that.offersSynced);
                             that.offerSynced();
                         }
                     });

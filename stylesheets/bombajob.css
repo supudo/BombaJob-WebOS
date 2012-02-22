@@ -20,3 +20,5 @@
 .btn-post-error { color: #df9368; }
 
 .btn-send-message { background-color: #df9368; color: #000000; }
+
+.btn-share { background: url('../images/soc-share.png') 0 0 no-repeat; width: 44px; height: 44px; border: 0px; }
