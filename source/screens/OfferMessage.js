@@ -42,11 +42,11 @@ enyo.kind({
       this.$.mdPostOK.open();
       this.$.btnClose.setCaption($L('close_alertbox'));
       this.$.mdPostOKMessage.setContent($L('message_sent'));
-      this.log("Message success - " + enyo.json.stringify(inResponse) + "!");
+      logThis(this, "Message success - " + enyo.json.stringify(inResponse) + "!");
   },
   syncFailed: function(inSender, inResponse, inRequest) {
       enyo.scrim.hide();
-      this.log("Message failed (" + enyo.json.stringify(inResponse) + ")!");
+      logThis(this, "Message failed (" + enyo.json.stringify(inResponse) + ")!");
   },
   backClick : function() {
       this.doBack();

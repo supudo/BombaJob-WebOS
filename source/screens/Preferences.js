@@ -129,12 +129,12 @@ enyo.kind({
           this.$.pdEmail.setValue(inResponse.pdEmail);
   },
   getPreferencesFailure: function(inSender, inResponse) {
-      this.log("Settings read error! " + inResponse);
+      logThis(this, "Settings read error! " + inResponse);
   },
   setPreferencesSuccess: function(inSender, inResponse) {
-      this.log("Settings saved!");
+      logThis(this, "Settings saved!");
   },
   setPreferencesFailure: function(inSender, inResponse) {
-      this.log("Settings save error! " + inResponse);
+      logThis(this, "Settings save error! " + inResponse);
   }
 });

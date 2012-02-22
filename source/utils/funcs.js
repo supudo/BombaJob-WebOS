@@ -21,3 +21,14 @@ function addSlashes(str) {
     return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
     //return (str + '').replace(/[']/g, '\'');
 }
+
+function logThis() {
+    if (enyo.application.appSettings['InDebug']) {
+        var args = arguments;
+        var output = "[___BombaJob-DEBUG] " + arguments[0] + " // ";
+        for (var i=1; i<arguments.length; i++) {
+            output += arguments[i];
+        }
+        enyo.log(output);
+    }
+}

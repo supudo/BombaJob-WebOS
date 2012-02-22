@@ -88,7 +88,7 @@ enyo.kind({
   },
   syncFinished: function(inSender, inResponse, inRequest) {
       enyo.scrim.hide();
-      this.log("Search success - " + enyo.json.stringify(inResponse) + "!");
+      logThis(this, "Search success - " + enyo.json.stringify(inResponse) + "!");
       if (inResponse !== null && inResponse.searchOffers != null) {
           var that = this;
           enyo.forEach(inResponse.searchOffers, function(ent) {
@@ -141,6 +141,6 @@ enyo.kind({
   },
   syncFailed: function(inSender, inResponse, inRequest) {
       enyo.scrim.hide();
-      this.log("Search failed (" + enyo.json.stringify(inResponse) + ")!");
+      logThis(this, "Search failed (" + enyo.json.stringify(inResponse) + ")!");
   }
 });

@@ -26,6 +26,8 @@ enyo.kind({
       this.inherited(arguments);
       enyo.g11n.setLocale({uiLocale: "bg"});
       this.$.headerText.setContent($L('Menu_About'));
+  },
+  viewAbout: function() {
       var that = this;
       TextContent.all().filter('cid', '=', '35').one(null, function(tc) {
           if (tc)

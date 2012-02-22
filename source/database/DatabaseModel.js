@@ -40,8 +40,8 @@ JobOffer.textIndex('negativism');
 JobOffer.textIndex('positivism');
 
 //Category.hasMany('jobOffers', JobOffer, 'category');
-// JobOffer.index(['oid', 'id'], {unique: true});
+//JobOffer.index(['oid', 'id'], {unique: true});
 
 persistence.schemaSync();
 
-persistence.debug = false;
+persistence.debug = enyo.application.appSettings['InDatabaseDebug'];

@@ -31,7 +31,8 @@ enyo.kind({
       this.inherited(arguments);
       enyo.g11n.setLocale({uiLocale: "bg"});
       this.$.headerText.setContent($L('Menu_NewestOffers'));
-      this.db = enyo.application.persistence;
+  },
+  loadOffers: function() {
       this.offerItems = new Array();
 
       var that = this;

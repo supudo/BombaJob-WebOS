@@ -8,6 +8,7 @@
 
 .loadingLabel { text-align: center; position: fixed; left: 50%; top: 50%; margin-top: -30px; margin-left: -60px; }
 .loadingProgressBar { position: fixed; left: 50%; top: 50%; margin-left: -150px; width: 300px; }
+.loadingProgressBarSmall { position: fixed; left: 50%; top: 54%; margin-left: -50px; width: 100px; }
 
 .opIcon { padding-right: 6px; }
 

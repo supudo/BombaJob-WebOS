@@ -56,7 +56,7 @@ enyo.kind({
       });
   },
   tabButtonSelected: function(inSender) {
-      this.log("Selected button" + inSender.getValue());
+      logThis(this, "Selected button" + inSender.getValue());
       this.switchView(inSender.getValue());
   },
   switchView: function(tbVal) {

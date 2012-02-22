@@ -5,6 +5,8 @@ enyo.kind({
         name : "pane",
         kind : "Pane",
         flex : 1,
+        onSelectView: "viewChanged",
+        //transitionKind: "enyo.transitions.LeftRightFlyin",
         components : [
             { name : "loading", className : "bgpattern", kind : "bj.Loading", onBack : "goBackLoading" },
             { name : "newestOffers", className : "bgpattern", kind : "bj.NewestOffers", onSelect : "viewOffer" },
@@ -46,6 +48,11 @@ enyo.kind({
         this.$.mainMenu.components[6].caption = $L('Menu_About');
         this.$.pane.selectViewByName("loading");
     },
+    viewChanged: function(inSender, inView, inPreviousView) {
+        if (inView != null && inPreviousView != null) {
+            logThis(this, "view changed from - " + inPreviousView.name + ", to - " + inView.name);
+        }
+    },
     // App Menu ------------------------------------------------
     openAppMenuHandler: function() {
         this.$.appMenu.open();
@@ -56,11 +63,6 @@ enyo.kind({
     // Preferences ------------------------------------------------
     showPreferences : function() {
         this.$.pane.selectViewByName("preferences");
-    },
-    preferencesReceived : function(inSender, inDefaultUrl) {
-    },
-    preferencesSaved : function(inSender, inFeedUrl) {
-        this.$.pane.back();
     },
     // ------------------------------------------------
     viewOffer : function(inSender, inOffer) {
@@ -87,7 +89,7 @@ enyo.kind({
     },
     // ------------------------------------------------
     goBackLoading : function(inSender, inEvent) {
-        this.$.pane.selectViewByName("newestOffers");
+        this.showNewestOffers();
     },
     goBack : function(inSender, inEvent) {
         this.$.pane.back(inEvent);
@@ -95,6 +97,7 @@ enyo.kind({
     // Menu ------------------------------------------------
     showNewestOffers : function() {
         this.$.pane.selectViewByName("newestOffers");
+        this.$.newestOffers.loadOffers();
     },
     showJobs : function() {
         if (enyo.application.appSettings['ShowCategories']) {
@@ -132,5 +135,6 @@ enyo.kind({
     },
     showAbout : function() {
         this.$.pane.selectViewByName("about");
+        this.$.about.viewAbout();
     }
 });

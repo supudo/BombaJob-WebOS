@@ -138,7 +138,7 @@ enyo.kind({
       }
       else {
           enyo.scrim.show();
-          this.log("posting offer - " + enyo.json.stringify(j));
+          logThis(this, "posting offer - " + enyo.json.stringify(j));
           this.$.errorMsgCont.hide();
           this.$.postService.setUrl(enyo.application.appSettings['ServiceURL'] + "postNewJob");
           this.$.postService.call("jsonobj=" + enyo.json.stringify(j));
@@ -149,11 +149,11 @@ enyo.kind({
       this.$.mdPostOK.open();
       this.$.btnClose.setCaption($L('close_alertbox'));
       this.$.mdPostOKMessage.setContent($L('post_OfferSuccess'));
-      this.log("Post success - " + enyo.json.stringify(inResponse) + "!");
+      logThis(this, "Post success - " + enyo.json.stringify(inResponse) + "!");
   },
   syncFailed: function(inSender, inResponse, inRequest) {
       enyo.scrim.hide();
-      this.log("Post failed (" + enyo.json.stringify(inResponse) + ")!");
+      logThis(this, "Post failed (" + enyo.json.stringify(inResponse) + ")!");
   },
   closeClick: function() {
       this.$.pHumanYn.setState(true);

@@ -7,6 +7,7 @@ enyo.kind({
     components : [
         { name: 'lblLoading', content: 'Loading...', className: 'loadingLabel' },
         { name: 'loadingProgress', kind: "ProgressBar", minimum: 0, maximum: 60, position: 0, className: "loadingProgressBar" },
+        { name: 'loadingProgressSmall', kind: "ProgressBar", minimum: 0, maximum: 100, position: 0, className: "loadingProgressBarSmall" },
         { name: "syncService", kind: "WebService", onSuccess: "syncFinished", onFailure: "syncFailed" },
         {
             name : "getConnMgrStatus",
@@ -38,13 +39,15 @@ enyo.kind({
             "keys": ["showCategories", "onlineSearch", "inAppEmail", "privateData", "pdEmail"]
         });
 
-        var dbWipe = false;
-        if (dbWipe) {
+        this.$.loadingProgressSmall.hide();
+        this.offersTotal = 0;
+        this.offersSynced = 0;
+        if (enyo.application.appSettings['WipeDatabase']) {
             var that = this;
             enyo.application.persistence.reset();
             enyo.application.persistence.transaction(function(tx) {
                 enyo.application.persistence.flush(tx, function() {
-                    that.log('Database wiped!');
+                    logThis(that, 'Database wiped!');
                     //that.serviceURL = enyo.application.appSettings['ServiceURL'];
                     //that.$.getConnMgrStatus.call();
                 });
@@ -66,18 +69,17 @@ enyo.kind({
         enyo.application.appSettings['ShowCategories'] = false;
     },
     statusFinished : function(inSender, inResponse) {
-        this.log("getStatus success, results=" + enyo.json.stringify(inResponse));
+        logThis(this, "getStatus success, results=" + enyo.json.stringify(inResponse));
         this.syncTextContent();
     },
     statusFail : function(inSender, inResponse) {
-        this.log("getStatus failure, results=" + enyo.json.stringify(inResponse));
+        logThis(this, "getStatus failure, results=" + enyo.json.stringify(inResponse));
     },
     getStatus : function(inSender, inResponse) {
         this.$.getConnMgrStatus.call({ "subscribe": true });
     },
     syncFinished: function(inSender, inResponse, inRequest) {
         if (inResponse !== null) {
-            this.$.loadingProgress.setPosition(20 * this.serviceStatus);
             if (this.serviceStatus == 1 && inResponse.getTextContent != null) {
                 enyo.forEach(inResponse.getTextContent, function(ent) {
                     TextContent.all().filter('cid', '=', ent.id).one(function(existing) {
@@ -98,7 +100,8 @@ enyo.kind({
                     });
                 }, this);
                 enyo.application.persistence.flush(function(){ });
-                this.log("Sync done ... text content!");
+                logThis(this, "Sync done ... text content!");
+                this.$.loadingProgress.setPosition(20 * this.serviceStatus);
                 this.syncCategories();
             }
             else if (this.serviceStatus == 2) {
@@ -121,14 +124,18 @@ enyo.kind({
                     });
                 }, this);
                 enyo.application.persistence.flush(function(){ });
-                this.log("Sync done ... categories!");
+                logThis(this, "Sync done ... categories!");
+                this.$.loadingProgress.setPosition(20 * this.serviceStatus);
                 this.syncNewestOffers();
             }
             else {
                 var that = this;
+                this.offersTotal = inResponse.getNewJobsCount;
+                this.$.loadingProgressSmall.setMaximum(this.offersTotal);
                 enyo.forEach(inResponse.getNewJobs, function(ent) {
                     JobOffer.all().filter('oid', '=', ent.id).one(function(existing) {
                         if (!existing) {
+                            logThis(that, "new...");
                             var t = new JobOffer();
                             t.oid = ent.id;
                             t.cid = ent.cid;
@@ -145,9 +152,12 @@ enyo.kind({
                             t.readyn = false;
                             t.sentmessageyn = false;
                             enyo.application.persistence.add(t);
-                            //enyo.application.persistence.flush(null);
+                            that.offersSynced++;
+                            logThis(that, "total = " + that.offersTotal + "; synced = " + that.offersSynced);
+                            that.offerSynced();
                         }
                         else {
+                            logThis(that, "existing...");
                             existing.oid = ent.id;
                             existing.cid = ent.cid;
                             existing.title = ent.title;
@@ -160,25 +170,35 @@ enyo.kind({
                             existing.publishdate = Date.parse(ent.date);
                             existing.publishdatestring = ent.date;
                             existing.publishdatestamp = ent.datestamp;
-                            //enyo.application.persistence.flush(null);
+                            that.offersSynced++;
+                            logThis(that, "total = " + that.offersTotal + "; synced = " + that.offersSynced);
+                            that.offerSynced();
                         }
                     });
                 }, this);
             }
-            enyo.application.persistence.flush(function(){ });
-            this.log("Sync done ... newest job offers!");
-            this.syncDone();
         }
         else
             this.syncFailed();
     },
     syncFailed: function() {
-        this.log("Synchronization failed (" + this.serviceStatus + ")!");
+        logThis(this, "Synchronization failed (" + this.serviceStatus + ")!");
     },
     syncDone: function() {
         this.$.loadingProgress.setPosition(60);
-        this.log("Synchronization completed!");
+        logThis(this, "Synchronization completed!");
         this.doBack();
+    },
+    offerSynced: function() {
+        if (this.offersTotal == this.offersSynced) {
+            enyo.application.persistence.flush(function(){});
+            logThis(this, "Sync done ... newest job offers!");
+            this.$.loadingProgress.setPosition(20 * this.serviceStatus);
+            this.$.loadingProgressSmall.hide();
+            this.syncDone();
+        }
+        else
+            this.$.loadingProgressSmall.setPosition(this.offersSynced);
     },
     syncTextContent: function() {
         this.serviceStatus = 1;
@@ -192,6 +212,7 @@ enyo.kind({
     },
     syncNewestOffers: function() {
         this.serviceStatus = 3;
+        this.$.loadingProgressSmall.show();
         this.$.syncService.setUrl(this.serviceURL + "get500Jobs&wd=1");
         this.$.syncService.call();
     }

@@ -12,4 +12,7 @@ enyo.application.appSettings['FBAppID'] = "";
 enyo.application.appSettings['FBAppSecret'] = "";
 
 // Misc
+enyo.application.appSettings['InDebug'] = true;
+enyo.application.appSettings['InDatabaseDebug'] = false;
+enyo.application.appSettings['WipeDatabase'] = false;
 enyo.application.appSettings['ServiceURL'] = "http://www.bombajob.bg/_mob_service_json.php?action=";
