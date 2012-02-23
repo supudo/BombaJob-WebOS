@@ -40,7 +40,16 @@ enyo.kind({
             { layoutKind: "HFlexLayout", pack: "center", components: [
                 { name: "btnClose", kind: "Button", caption: "Close", onclick: "closeClick" }
             ]}
-        ]}
+        ]},
+        {
+            name: "launchAppCall",
+            kind: "PalmService",
+            service: "palm://com.palm.applicationManager/",
+            method: "launch",
+            onSuccess: "launchFinished",
+            onFailure: "launchFail",
+            onResponse: "gotResponse"
+        },
     ],
     create: function() {
         this.inherited(arguments);
@@ -49,11 +58,12 @@ enyo.kind({
         this.$.sendMessageButton.setCaption($L('send_message'));
         this.shareNets = [];
         this.shareNets.push({caption: $L('share_title'), value: 0});
-        //this.shareNets.push({caption: "Facebook", value: 1});
+        this.shareNets.push({caption: "Facebook", value: 1});
         //this.shareNets.push({caption: "Twitter", value: 2});
         this.shareNets.push({caption: "Email", value: 3});
         this.shareNets.push({caption: $L('send_message'), value: 4});
         this.resetShare();
+        this.shareOption = 0;
     },
     backClick : function() {
         this.doBack();
@@ -112,18 +122,28 @@ enyo.kind({
         this.$.sharePicker.setItems(this.shareNets);
         this.$.sharePicker.render();
     },
+    getShareMessage: function() {
+        var tweet = "BombaJob.bg - " + this.offer.title;
+        tweet += " http://bombajob.bg/offer/" + this.offer.oid;
+        tweet += " #bombajobbg";
+        return tweet;
+    },
     // Share Facebook ---------------------------------
     doShareFacebook: function() {
         logThis(this, "share Facebook");
-        this.doPostFacebook();
+        this.shareOption = 1;
+        this.$.launchAppCall.call({ "id": "com.palm.app.facebook", "params": {"status": this.getShareMessage()}});
     },
     // Share Twitter ---------------------------------
     doShareTwitter: function() {
         logThis(this, "share Twitter");
+        this.shareOption = 2;
+        //this.$.launchAppCall.call({ "id": "com.palm.app.twitter", "params": {"action" : "", "status": this.getShareMessage()}});
     },
     // Share email ---------------------------------
     doShareEmail: function() {
         logThis(this, "share Email");
+        this.shareOption = 3;
         this.$.mdEmails.open();
         this.$.grpEmail.setCaption($L('message_title'));
         this.$.emFrom.setHint($L('message_fromEmail'));
@@ -152,6 +172,22 @@ enyo.kind({
         logThis(this, "Email sending failed (" + enyo.json.stringify(inResponse) + ")!");
     },
     // ------------------------------------------------------------------
+    launchFinished: function(inSender, inResponse) {
+        logThis(this, "Launch ok - " + enyo.json.stringify(inResponse));
+    },
+    launchFail: function(inSender, inError, inRequest) {
+        logThis(this, "Launch error - " + enyo.json.stringify(inError));
+        if (this.shareOption == 1) {
+            this.$.mdService.open();
+            this.$.mdServiceMessage.setContent($L('share_no_facebook_app'));
+            this.$.btnClose.setCaption($L('close_alertbox'));
+        }
+        else if (this.shareOption == 2) {
+            this.$.mdService.open();
+            this.$.mdServiceMessage.setContent($L('share_no_twitter_app'));
+            this.$.btnClose.setCaption($L('close_alertbox'));
+        }
+    },
     closeClick: function() {
         this.$.mdService.close();
     }

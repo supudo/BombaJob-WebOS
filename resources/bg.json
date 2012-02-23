@@ -105,5 +105,7 @@
     "message_toEmail" : "До...",
     "message_btn_send" : "Изпрати",
     "message_btn_cancel" : "Откажи",
-    "message_sent" : "Съобщението е изпратено."
+    "message_sent" : "Съобщението е изпратено.",
+    "share_no_facebook_app" : "Нямате Facebook клиент. Моля, инсталирайте си, за да можете да публикувате.",
+    "share_no_twitter_app" : "Нямате Twitter клиент. Моля, инсталирайте си, за да можете да публикувате."
 }
