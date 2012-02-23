@@ -50,6 +50,16 @@ enyo.kind({
             onFailure: "launchFail",
             onResponse: "gotResponse"
         },
+        {
+            name: "openEmailCall",
+            kind: "PalmService",
+            service: "palm://com.palm.applicationManager/",
+            method: "open",
+            onSuccess: "openEmailSuccess",
+            onFailure: "openEmailFailure",
+            onResponse: "gotResponse",
+            subscribe: true
+        }
     ],
     create: function() {
         this.inherited(arguments);
@@ -144,12 +154,37 @@ enyo.kind({
     doShareEmail: function() {
         logThis(this, "share Email");
         this.shareOption = 3;
-        this.$.mdEmails.open();
-        this.$.grpEmail.setCaption($L('message_title'));
-        this.$.emFrom.setHint($L('message_fromEmail'));
-        this.$.emTo.setHint($L('message_toEmail'));
-        this.$.btnSend.setCaption($L('message_btn_send'));
-        this.$.btnCancel.setCaption($L('message_btn_cancel'));
+        if (enyo.application.appSettings['InAppEmail']) {
+            var emailBody = "";
+            emailBody += this.offer.categorytitle + "<br /><br />";
+            emailBody += "<b>" + this.offer.title + "</b><br /><br />";
+            emailBody += "<i>" + getDateForDetails(this.offer.publishdate) + "</i><br /><br />";
+            emailBody += $L('FreelanceYn') + " " + ((this.offer.freelanceyn) ? $L('YES') : $L('NO')) + "<br /><br />";
+            if (this.offer.humanyn == "true") {
+                emailBody += "<b>" + $L('odetails_Human_Positiv') + "</b> " + this.offer.positivism + "<br /><br />";
+                emailBody += "<b>" + $L('odetails_Human_Negativ') + "</b> " + this.offer.negativism + "<br /><br />";
+            }
+            else {
+                emailBody += "<b>" + $L('odetails_Company_Positiv') + "</b> " + this.offer.positivism + "<br /><br />";
+                emailBody += "<b>" + $L('odetails_Company_Negativ') + "</b> " + this.offer.negativism + "<br /><br />";
+            }
+            emailBody += "<br /><br /> Sent from BombaJob ...";
+
+            var params =  {
+                "summary" : $L('email_subject'),
+                "text" : emailBody, 
+                "recipients" : [{"type" : "email", "contactDisplay" : "", "role" : 1, "value" : "" }],
+            };
+            this.$.openEmailCall.call({"id" : "com.palm.app.email", "params" : params});
+        }
+        else {
+            this.$.mdEmails.open();
+            this.$.grpEmail.setCaption($L('message_title'));
+            this.$.emFrom.setHint($L('message_fromEmail'));
+            this.$.emTo.setHint($L('message_toEmail'));
+            this.$.btnSend.setCaption($L('message_btn_send'));
+            this.$.btnCancel.setCaption($L('message_btn_cancel'));
+        }
     },
     sendClick: function() {
         var j = {from : addSlashes(this.$.emFrom.getValue()), to : addSlashes(this.$.emTo.getValue())};
@@ -170,6 +205,12 @@ enyo.kind({
     syncFailed: function(inSender, inResponse, inRequest) {
         enyo.scrim.hide();
         logThis(this, "Email sending failed (" + enyo.json.stringify(inResponse) + ")!");
+    },
+    openEmailSuccess : function(inSender, inResponse) {
+        enyo.log("Open email success, results=" + enyo.json.stringify(inResponse));
+    },
+    openEmailFailure : function(inSender, inResponse) {
+        enyo.log("Open email failure, results=" + enyo.json.stringify(inResponse));
     },
     // ------------------------------------------------------------------
     launchFinished: function(inSender, inResponse) {
