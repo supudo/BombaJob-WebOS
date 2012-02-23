@@ -6,14 +6,15 @@ enyo.kind({
     },
     events : {
         onBack : "",
-        onSendMessage: ""
+        onSendMessage: "",
+        onPostFacebook: ""
     },
     components : [
         { kind : "PageHeader", components : [
              { name : "headerText", kind : enyo.VFlexBox, content : "BombaJob", flex : 1 },
              { name : "backButton", kind : "Button", content : "Back", onclick : "backClick" },
              { width: "10px" },
-             { name : "sharePicker", kind: "Picker", caption: "", value: "", onChange: "shareChange", onFocusChange: "shareFocus", className: "btn-share" }
+             { name : "sharePicker", kind: "Picker", caption: "", value: "", onclick:'clearShare', onChange: "shareChange", onFocusChange: "shareFocus", className: "btn-share" }
         ] },
         { kind : "Scroller", flex : 1, layoutKind: "VFlexLayout", components : [
             { name : "offerContent", kind : "HtmlContent", allowHtml : "true", style: "padding: 2px;" },
@@ -48,8 +49,8 @@ enyo.kind({
         this.$.sendMessageButton.setCaption($L('send_message'));
         this.shareNets = [];
         this.shareNets.push({caption: $L('share_title'), value: 0});
-        this.shareNets.push({caption: "Facebook", value: 1});
-        this.shareNets.push({caption: "Twitter", value: 2});
+        //this.shareNets.push({caption: "Facebook", value: 1});
+        //this.shareNets.push({caption: "Twitter", value: 2});
         this.shareNets.push({caption: "Email", value: 3});
         this.shareNets.push({caption: $L('send_message'), value: 4});
         this.resetShare();
@@ -58,6 +59,13 @@ enyo.kind({
         this.doBack();
     },
     offerChanged : function() {
+        var that = this;
+        JobOffer.all().filter('oid', '=', this.offer.oid).one(function(existing) {
+            if (existing) {
+                existing.readyn = true;
+                enyo.application.persistence.flush(function(){});
+            }
+        });
         var off = "";
         off += "<i>" + this.offer.categorytitle + "</i><br><br>";
         off += "<b>" + this.offer.title + "</b><br><br>";
@@ -107,6 +115,7 @@ enyo.kind({
     // Share Facebook ---------------------------------
     doShareFacebook: function() {
         logThis(this, "share Facebook");
+        this.doPostFacebook();
     },
     // Share Twitter ---------------------------------
     doShareTwitter: function() {

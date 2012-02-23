@@ -13,13 +13,18 @@ enyo.kind({
             { name : "categories", className : "bgpattern", kind : "bj.Categories", onCategorySelect : "viewCategory", onOfferSelect : "viewOffer" },
             { name : "jobs", className : "bgpattern", kind : "bj.Jobs", onSelect : "viewOffer", onBack : "goBack" },
             { name : "people", className : "bgpattern", kind : "bj.People", onSelect : "viewOffer", onBack : "goBack" },
-            { name : "offerDetails", className : "bgpattern", kind : "bj.OfferDetails", onBack : "goBack", onSendMessage: "sendOfferMessage" },
+            { name : "offerDetails", className : "bgpattern", kind : "bj.OfferDetails",
+                onBack : "goBack",
+                onSendMessage: "sendOfferMessage",
+                onPostFacebook: "openFacebook"
+            },
             { name : "offerMessage", className : "bgpattern", kind : "bj.OfferMessage", onBack : "goBack" },
             { name : "post", className : "bgpattern", kind : "bj.Post" },
             { name : "search", className : "bgpattern", kind : "bj.Search", onFound: "viewSearchResults" },
             { name : "searchResults", className : "bgpattern", kind : "bj.SearchResults", onSelect : "viewOffer", onBack : "goBack" },
             { name : "preferences", className : "bgpattern", kind : "bj.Preferences", onCancel : "goBack" },
-            { name : "about", className : "bgpattern", kind : "bj.About" }
+            { name : "about", className : "bgpattern", kind : "bj.About" },
+            { name : "shFacebook", className : "bgpattern", kind : "bj.Facebook" }
         ]
     },
     {
@@ -69,6 +74,10 @@ enyo.kind({
         this.$.pane.selectViewByName("offerDetails");
         this.$.offerDetails.setOffer(inOffer);
         this.$.offerDetails.resetShare();
+    },
+    openFacebook: function() {
+        this.$.pane.selectViewByName("shFacebook");
+        this.$.shFacebook.loginToFacebook("", "");
     },
     viewCategory : function(inSender, inCategory, inHumanYn) {
         if (!inHumanYn) {

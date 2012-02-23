@@ -55,13 +55,18 @@ enyo.kind({
               this.$.icon.setSrc("images/icon_person.png");
           else
               this.$.icon.setSrc("images/icon_company.png");
-          var offContent = '<b>' + r.title + '</b>';
-          offContent += '<br /><i>' + getDateForList(r.publishdate) + '</i>';
+          var offContent = '';
+          if (r.readyn == "true")
+              offContent += r.title;
+          else
+              offContent += '<strong>' + r.title + '</strong>';
+          offContent += '<br /><em>' + getDateForList(r.publishdate) + '</em>';
           this.$.content.setContent(offContent);
           return true;
       }
   },
   listItemClick: function(inSender, inEvent) {
+      logThis(this, "clicked on - " + inEvent.rowIndex);
       var offer = this.offerItems[inEvent.rowIndex];
       this.doSelect(offer);
   }

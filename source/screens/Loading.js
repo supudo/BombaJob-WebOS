@@ -48,8 +48,8 @@ enyo.kind({
             enyo.application.persistence.transaction(function(tx) {
                 enyo.application.persistence.flush(tx, function() {
                     logThis(that, 'Database wiped!');
-                    that.serviceURL = enyo.application.appSettings['ServiceURL'];
-                    that.$.getConnMgrStatus.call();
+                    //that.serviceURL = enyo.application.appSettings['ServiceURL'];
+                    //that.$.getConnMgrStatus.call();
                 });
             });
         }

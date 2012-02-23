@@ -56,7 +56,11 @@ enyo.kind({
           if (this.CategoryID > 0)
               this.$.category.hide();
           this.$.category.setCaption(r.categorytitle);
-          var offContent = '<b>' + r.title + '</b>';
+          var offContent = '';
+          if (r.readyn == "true")
+              offContent += r.title;
+          else
+              offContent += '<strong>' + r.title + '</strong>';
           offContent += '<br /><i>' + getDateForList(r.publishdate) + '</i>';
           this.$.content.setContent(offContent);
           return true;

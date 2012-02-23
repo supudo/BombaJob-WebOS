@@ -56,7 +56,6 @@ enyo.kind({
       });
   },
   tabButtonSelected: function(inSender) {
-      logThis(this, "Selected button" + inSender.getValue());
       this.switchView(inSender.getValue());
   },
   switchView: function(tbVal) {
@@ -92,7 +91,11 @@ enyo.kind({
           var r = this.offerItems[inIndex];
           if (r) {
               this.$.contentDivider.setCaption(r.categorytitle);
-              var offContent = '<b>' + r.title + '</b>';
+              var offContent = '';
+              if (r.readyn == "true")
+                  offContent += r.title;
+              else
+                  offContent += '<strong>' + r.title + '</strong>';
               offContent += '<br /><i>' + getDateForList(r.publishdate) + '</i>';
               this.$.content.setContent(offContent);
               return true;

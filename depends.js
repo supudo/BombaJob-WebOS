@@ -19,5 +19,6 @@ enyo.depends(
   'source/screens/Search.js',
   'source/screens/SearchResults.js',
   'source/screens/Preferences.js',
-  'source/screens/About.js'
+  'source/screens/About.js',
+  'source/screens/SocNet/Facebook.js'
 );
