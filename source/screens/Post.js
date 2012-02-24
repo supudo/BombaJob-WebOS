@@ -120,7 +120,7 @@ enyo.kind({
       var validationError = true;
       if (oTitle == "")
           errorText += (isHuman ? $L('post_error_Human_Title') : $L('post_error_Company_Title'));
-      else if (oEmail == "" | !emailFilter.test(oEmail))
+      else if (oEmail == "" || !emailFilter.test(oEmail))
           errorText += (isHuman ? $L('post_error_Human_Email') : $L('post_error_Company_Email'));
       else if (oPositiv == "")
           errorText += (isHuman ? $L('post_error_Human_Positiv') : $L('post_error_Company_Positiv'));
