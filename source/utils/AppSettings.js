@@ -11,4 +11,4 @@ enyo.application.appSettings['PDEmail'] = "";
 enyo.application.appSettings['InDebug'] = false;
 enyo.application.appSettings['InDatabaseDebug'] = false;
 enyo.application.appSettings['WipeDatabase'] = false;
-enyo.application.appSettings['ServiceURL'] = "http://www.bombajob.bg/_mob_service_json.php?action=";
+enyo.application.appSettings['ServiceURL'] = "http://bombajob.supudo.net/_mob_service_json.php?action=";
